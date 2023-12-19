@@ -1,10 +1,9 @@
+import ListForm from "./layout/ListForm"
 
 function App() {
  
   return (
-    <>
-      Hello
-    </>
+    <ListForm/>
   )
 }
 

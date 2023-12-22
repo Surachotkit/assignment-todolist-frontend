@@ -1,71 +1,44 @@
 import { LuListTodo } from "react-icons/lu";
 import ProductList from "../ProductList";
-import { useEffect, useState } from "react";
-import axios from "../../config/axios";
+import { useState } from "react";
+import FormEditTask from "./FormEditTask";
+import { useList } from "../../hooks/useList";
 
 export default function ListForm() {
-  const [dataList, setDataList] = useState([])
-  const [postList, setPostList] = useState({
-    title:""
-  })
+  const [searchItem, setSearchItem] = useState('');
+  const {dataList,
+    setDataList,
+    postList,
+    setPostList,
+    postData,
+    editData,
+    deleteData,
+    } = useList()
 
+  const [isOpen,setIsOpen] = useState(false)
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get("/get")
-      setDataList(res.data)
-    } catch (error) {
-      console.log(error)
-    }
+  const handleSubmit =  (e) => {
+    // e.preventDefault()
+
   }
+  console.log(dataList)
+  // const handleInput = (e) => {
+  //   setSearchItem(e.target.value);
+  // };
+  // let filterItem = [...dataList];
+  // console.log("🚀 ~ file: ListForm.jsx:29 ~ ListForm ~ dataList:", dataList)
 
-  const postData = async () => {
-    try {
-      await axios.post("/create",postList)
-      fetchData();
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const editData = async (idx,newData) => {
-    console.log("🚀 ~ file: ListForm.jsx:32 ~ editData ~ newData:", newData)
-    console.log("🚀 ~ file: ListForm.jsx:32 ~ editData ~ idx:", idx)
-    try {
-      await axios.patch(`/edit/${idx}`,postList)
-      // setDataList(dataList.filter(el => el.id !== idx))
-      const newList = dataList.map((oldList) =>   {
-        console.log("🚀 ~ file: ListForm.jsx:38 ~ newList ~ oldList:", oldList)
-        if(oldList.id !== idx){
-          return oldList
-        }else{
-          return {...oldList, ...newData}
-        }
-      })
-      setDataList(newList)
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const deleteData = async (idx) => {
-    try {
-      await axios.delete(`/delete/${idx}`)
-      setDataList(dataList.filter(el => el.id !== idx))
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  
-
-  useEffect(() => {
-    fetchData()
-  },[])
+  // if (searchItem) {
+  //   filterItem = dataList.filter((el) => {
+  //     if (el.title.toLowerCase().includes(searchItem.toLowerCase())) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  // }
 
   return (
-    <form className="flex justify-center  h-screen border" >
+    <form className="flex justify-center  h-screen border" onSubmit={handleSubmit}>
       <div className="">
         {/* topic */}
         <div className="flex justify-center items-center gap-4 text-5xl font-bold p-5">
@@ -88,12 +61,13 @@ export default function ListForm() {
         {/* item */}
         <div className="flex flex-col bg-white rounded-xl px-5 py-2 w-[100vh] ">
           <span>Date : 20/12/2023</span>
-
-          {dataList.map((el) => <ProductList key={el.id} el={el} deleteData={deleteData} editData={editData} postList={postList} setPostList={setPostList} dataList={dataList} setDataList={setDataList} />)}
-         
+          {/* { dataList ? filterItem.map((el) => <ProductList el={el}/>) : null} */}
+          { dataList.map((el) => (<ProductList key={el.id} el={el}   />))}
+          <FormEditTask/>
         </div>
 
       </div>
     </form>
   );
 }
+  

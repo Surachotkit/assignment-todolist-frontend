@@ -4,14 +4,10 @@ import axios from "../config/axios";
 export const ListContext = createContext();
 
 export default function ListContextProvider({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchItem, setSearchItem] = useState('');
   const [dataList, setDataList] = useState([]);
-  console.log("🚀 ~ file: ListContext.jsx:10 ~ ListContextProvider ~ dataList:", dataList)
   const [postList, setPostList] = useState({
     title: "",
   });
-//   const [taskInput, setTaskInput] = useState(title || '')
 
   const fetchData = async () => {
     try {
@@ -32,21 +28,18 @@ export default function ListContextProvider({ children }) {
   };
 
   const editData = async (idx, newData) => {
-    console.log("🚀 ~ file: ListForm.jsx:32 ~ editData ~ newData:", newData);
-    console.log("🚀 ~ file: ListForm.jsx:32 ~ editData ~ idx:", idx);
+    const body = { id: idx, title: newData?.title };
+
     try {
-      await axios.patch(`/edit/${idx}`, postList);
-    //   await axios.patch(`/edit/${idx}`, postList);
-      // setDataList(dataList.filter(el => el.id !== idx))
+      await axios.patch(`/edit/${idx}`, body);
       const newList = dataList.map((oldList) => {
-        console.log("🚀 ~ file: ListForm.jsx:38 ~ newList ~ oldList:", oldList);
         if (oldList.id !== idx) {
           return oldList;
         } else {
           return { ...oldList, ...newData };
         }
       });
-      console.log("🚀 ~ file: ListContext.jsx:47 ~ newList ~ newList:", newList)
+
       setDataList(newList);
     } catch (error) {
       console.log(error);
@@ -66,21 +59,6 @@ export default function ListContextProvider({ children }) {
     fetchData();
   }, []);
 
-
-  // const handleInput = (e) => {
-  //   setSearchItem(e.target.value);
-  // };
-  // let filterItem = [...dataList];
-
-  // if (searchItem) {
-  //   filterItem = dataList.filter((el) => {
-  //     if (el.title.toLowerCase().includes(searchItem.toLowerCase())) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  // }
-
   return (
     <ListContext.Provider
       value={{
@@ -90,8 +68,7 @@ export default function ListContextProvider({ children }) {
         setPostList,
         postData,
         editData,
-        deleteData
-        
+        deleteData,
       }}
     >
       {children}

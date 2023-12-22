@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SearchBar from "../features/SearchBar";
 import dayjs from "dayjs";
 
 export default function Header() {

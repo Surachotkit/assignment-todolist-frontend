@@ -5,14 +5,10 @@ import { useList } from "../../hooks/useList";
 export default function ListForm() {
   const { dataList, postList, setPostList, postData } = useList();
 
-  const handleSubmit = (e) => {
-    // e.preventDefault()
-  };
-
   return (
     <form
       className="flex justify-center h-[93vh] border "
-      onSubmit={handleSubmit}
+   
     >
       <div className="">
         <div className="flex justify-center items-center gap-4 text-5xl font-bold p-5">

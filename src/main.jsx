@@ -7,7 +7,6 @@ import ListContextProvider from './contexts/ListContext.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <ListContextProvider>
-
     <App />
   </ListContextProvider>
   // </React.StrictMode>,

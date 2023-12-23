@@ -34,7 +34,6 @@ export default function ListForm() {
           </button>
         </div>
 
-        {/* item */}
         <div className="flex flex-col bg-white rounded-xl px-5 py-2 w-[100vh] ">
           {dataList.map((el) => (
             <ProductList key={el.id} el={el} />

@@ -83,12 +83,10 @@ export default function ProductList({ el }) {
             <span>{el.title} </span>
           </div>
           <div className="flex justify-center items-center gap-6">
-            {/* edit */}
             <FaRegEdit
               className="text-xl cursor-pointer"
               onClick={handleEdit}
             />
-            {/* delete */}
             <MdDelete
               className="text-2xl cursor-pointer"
               onClick={() => deleteData(el.id)}
